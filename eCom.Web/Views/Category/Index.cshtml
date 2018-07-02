@@ -1,0 +1,20 @@
+﻿@using eCom.Web.Entities;
+
+@model List<Category>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@foreach (var category in Model)
+{
+	<div>
+		<h1>@category.ID @category.Name</h1>
+		<p>
+			@category.Description
+		</p>
+		<a href="Category/Edit/@category.ID">Edit</a>
+		<a href="Category/Edit/@category.ID">Delete</a>
+	</div>
+}
+
