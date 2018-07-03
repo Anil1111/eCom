@@ -23,10 +23,12 @@ namespace eCom.Web.Controllers
         public ActionResult Create()
         {
             ApplicationDbContext context = new ApplicationDbContext();
+            
+            ProductViewModel model = new ProductViewModel();
+            
+            model.Categories = context.Categories.ToList();
 
-            List<Category> categories = context.Categories.ToList();
-
-            return View(categories);
+            return View("ProductOperation", model);
         }
 
         [HttpPost]
@@ -53,17 +55,33 @@ namespace eCom.Web.Controllers
 
             var product = context.Products.Find(ID);
 
-            return View(product);
+            ProductViewModel model = new ProductViewModel();
+
+            model.ID = product.ID;
+            model.Name = product.Name;
+            model.Description = product.Description;
+            model.Price = product.Price;
+
+            model.CategoryID = product.Category.ID;
+
+            model.Categories = context.Categories.ToList();
+
+            return View("ProductOperation", model);
         }
-
-
+        
         [HttpPost]
-        public ActionResult Edit(Product product)
+        public ActionResult Edit(ProductViewModel model)
         {
             ApplicationDbContext context = new ApplicationDbContext();
+            
+            var product = context.Products.Find(model.ID);
 
+            product.Name = model.Name;
+            product.Description = model.Description;
+            product.Price = model.Price;
+            product.Category = context.Categories.Find(model.CategoryID);
+            
             context.Entry(product).State = System.Data.Entity.EntityState.Modified;
-
             context.SaveChanges();
 
             return RedirectToAction("Index");

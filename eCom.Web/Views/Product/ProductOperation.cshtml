@@ -1,0 +1,51 @@
+﻿@model eCom.Web.ViewModels.ProductViewModel
+@{
+	ViewBag.Title = "Create";
+
+	var pageHeader = Model.ID > 0 ? "Edit Product" : "Create Product";
+}
+
+<h2>@pageHeader</h2>
+
+<form method="post">
+	<input type="hidden" name="ID" value="@Model.ID" />
+
+	<label>Name</label>
+	<input name="Name" value="@Model.Name" />
+
+	<br />
+
+	<label>Description</label>
+	<input name="Description" value="@Model.Description" />
+
+	<br />
+
+	<label>Price</label>
+	<input name="Price" value="@Model.Price" />
+
+	<br />
+
+	<label>Category</label>
+	<select name="CategoryID">
+		@foreach (var categ in Model.Categories)
+		{
+			var selectedStr = categ.ID == Model.CategoryID ? "selected" : string.Empty;
+
+			<option value="@categ.ID" @selectedStr>
+				@categ.Name
+			</option>
+		}
+	</select>
+
+	<br />
+
+	@if (Model.ID > 0)
+	{
+		<button type="submit">Update</button>
+		<button type="submit">Delete</button>
+	}
+	else
+	{
+		<button type="submit">Save</button>
+	}
+</form>
