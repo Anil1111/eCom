@@ -10,11 +10,22 @@ namespace eCom.Web.Controllers
 {
     public class CategoryController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index(string Search, int pageNo)
         {
             ApplicationDbContext context = new ApplicationDbContext();
 
-            List<Category> categories = context.Categories.ToList();
+            List<Category> categories;
+
+            if (string.IsNullOrEmpty(Search))
+            {
+                categories = context.Categories.ToList();
+            }
+            else
+            {
+                categories = context.Categories.Where(x => x.Name.Contains(Search)).ToList();
+            }
+
+            categories.Take(10);
 
             return View(categories);
         }
