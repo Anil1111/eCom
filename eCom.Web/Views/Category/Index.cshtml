@@ -1,4 +1,5 @@
 ﻿@using eCom.Web.Entities;
+@using eCom.Web.Helpers
 
 @model eCom.Web.ViewModels.CategoriesListViewModel
 
@@ -60,7 +61,7 @@
 				@if (Model.Pager.CurrentPage > 1)
 				{
 					<li class="page-item">
-						<a class="page-link" href="#">
+						<a class="page-link" href="@Url.Categories(Model.Pager.CurrentPage - 1, Model.Pager.PageSize)">
 							<span>&laquo;</span>
 						</a>
 					</li>
@@ -69,14 +70,14 @@
 				@for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
 				{
 					<li class="page-item @(page == Model.Pager.CurrentPage ? "active" : string.Empty)">
-						<a class="page-link" href="#">@page</a>
+						<a class="page-link" href="@Url.Categories(page, Model.Pager.PageSize)">@page</a>
 					</li>
 				}
 
 				@if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
 				{
 					<li class="page-item">
-						<a class="page-link" href="#">
+						<a class="page-link" href="@Url.Categories(Model.Pager.CurrentPage + 1, Model.Pager.PageSize)">
 							<span>&raquo;</span>
 						</a>
 					</li>
