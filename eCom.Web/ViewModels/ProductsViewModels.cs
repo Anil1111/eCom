@@ -6,6 +6,11 @@ using System.Web;
 
 namespace eCom.Web.ViewModels
 {
+    public class ProductsListViewModel : BaseListViewModel
+    {
+        public List<Product> Products { get; set; }
+    }
+
     public class ProductViewModel
     {
         public int ID { get; set; }

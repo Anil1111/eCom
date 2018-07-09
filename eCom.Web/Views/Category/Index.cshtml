@@ -1,6 +1,6 @@
 ﻿@using eCom.Web.Entities;
 
-@model List<Category>
+@model eCom.Web.ViewModels.CategoriesListViewModel
 
 @{
 	ViewBag.Title = "Index";
@@ -24,33 +24,66 @@
 	</div>
 </section>
 
-@if (Model != null && Model.Count > 0)
+@if (Model != null && Model.Categories != null && Model.Categories.Count > 0)
 {
-<table class="table table-hover">
-	<thead>
-		<tr>
-			<th scope="col">#</th>
-			<th scope="col">Name</th>
-			<th scope="col">Category</th>
-			<th scope="col">Actions</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var category in Model)
-		{
-			i++;
+	<table class="table table-hover">
+		<thead>
 			<tr>
-				<th scope="row">@i</th>
-				<td>@category.Name</td>
-				<td>@category.Description</td>
-				<td>
-					<a href="Category/Edit/@category.ID">Edit</a>
-					<a href="Category/Edit/@category.ID">Delete</a>
-				</td>
+				<th scope="col">#</th>
+				<th scope="col">Name</th>
+				<th scope="col">Category</th>
+				<th scope="col">Actions</th>
 			</tr>
-		}
-	</tbody>
-</table>
+		</thead>
+		<tbody>
+			@foreach (var category in Model.Categories)
+			{
+				i++;
+				<tr>
+					<th scope="row">@i</th>
+					<td>@category.Name</td>
+					<td>@category.Description</td>
+					<td>
+						<a href="Category/Edit/@category.ID">Edit</a>
+						<a href="Category/Edit/@category.ID">Delete</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+
+	if (Model.Pager != null && Model.Pager.EndPage > 1)
+	{
+		<nav>
+			<ul class="pagination">
+
+				@if (Model.Pager.CurrentPage > 1)
+				{
+					<li class="page-item">
+						<a class="page-link" href="#">
+							<span>&laquo;</span>
+						</a>
+					</li>
+				}
+				
+				@for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+				{
+					<li class="page-item @(page == Model.Pager.CurrentPage ? "active" : string.Empty)">
+						<a class="page-link" href="#">@page</a>
+					</li>
+				}
+
+				@if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+				{
+					<li class="page-item">
+						<a class="page-link" href="#">
+							<span>&raquo;</span>
+						</a>
+					</li>
+				}
+			</ul>
+		</nav>
+	}
 }
 else
 {
