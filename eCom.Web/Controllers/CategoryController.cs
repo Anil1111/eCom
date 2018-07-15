@@ -60,8 +60,7 @@ namespace eCom.Web.Controllers
 
             return View(category);
         }
-
-
+        
         [HttpPost]
         public ActionResult Edit(Category category)
         {
@@ -90,6 +89,89 @@ namespace eCom.Web.Controllers
             context.SaveChanges();
 
             return RedirectToAction("Index");
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public ActionResult Categories()
+        {
+            return View();
+        }
+        
+        public ActionResult CategoriesList()
+        {
+            CategoriesViewModel model = new CategoriesViewModel();
+
+            ApplicationDbContext context = new ApplicationDbContext();
+
+            model.Categories = context.Categories.ToList();
+
+            return PartialView("_CategoriesList", model);
+        }
+
+        public ActionResult CreateAJAX()
+        {
+            return PartialView("_CreateAJAX");
+        }
+
+        [HttpPost]
+        public JsonResult CreateAJAX(Category category)
+        {
+            JsonResult result = new JsonResult();
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+
+            try
+            {
+                ApplicationDbContext context = new ApplicationDbContext();
+
+                context.Categories.Add(category);
+                context.SaveChanges();
+
+                result.Data = new { Success = true, Category = category };
+            }
+            catch (Exception ex)
+            {
+                result.Data = new { Success = false, Message = ex.Message };
+            }
+
+            return result;
+        }
+
+        public ActionResult EditAJAX(int ID)
+        {
+            ApplicationDbContext context = new ApplicationDbContext();
+
+            var category = context.Categories.Find(ID);
+            
+            return PartialView("_EditAJAX", category);
         }
     }
 }

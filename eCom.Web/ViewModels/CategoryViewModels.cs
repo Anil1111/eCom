@@ -10,4 +10,9 @@ namespace eCom.Web.ViewModels
     {
         public List<Category> Categories { get; set; }
     }
+    
+    public class CategoriesViewModel : BaseListViewModel
+    {
+        public List<Category> Categories { get; set; }
+    }
 }

@@ -1,0 +1,72 @@
+﻿@using eCom.Web.Helpers
+
+@{
+	ViewBag.Title = "Categories";
+}
+
+<h2>Categories</h2>
+
+<form>
+	<input name="Search" />
+	<button id="searchBtn" type="button">Search</button>
+	<button id="newBtn" type="button">New</button>
+</form>
+
+<hr />
+
+<div id="categoriesDiv">
+	@{
+		Html.RenderAction("CategoriesList");
+	}
+</div>
+
+<hr />
+
+<div id="actionArea">
+
+</div>
+
+<script>
+	$(document).ready(function () {
+		$("#searchBtn").click(function () {
+
+		});
+
+		$("#newBtn").click(function () {
+
+			$.ajax({
+				type: "GET",
+				url: '@Url.CreateCategoryAJAX()',
+			})
+			.done(function (data) {
+				console.log(data);
+				$("#actionArea").html(data);
+			})
+			.fail(function (XMLHttpRequest, textStatus, errorThrown) {
+        		alert(errorThrown);
+			});
+
+		});
+
+		$(".editBtn").click(function () {
+
+			var categoryID = $(this).attr("data-id");
+
+			$.ajax({
+				type: "GET",
+				url: '@Url.EditCategoryAJAX()',
+				data: {
+					ID: categoryID
+				}
+			})
+			.done(function (data) {
+				console.log(data);
+				$("#actionArea").html(data);
+			})
+			.fail(function (XMLHttpRequest, textStatus, errorThrown) {
+				alert(errorThrown);
+			});
+
+		});
+	});
+</script>

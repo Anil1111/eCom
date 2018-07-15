@@ -283,6 +283,10 @@
     <Content Include="Views\Category\Edit.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Product\ProductOperation.cshtml" />
+    <Content Include="Views\Category\Categories.cshtml" />
+    <Content Include="Views\Category\_CreateAJAX.cshtml" />
+    <Content Include="Views\Category\_EditAJAX.cshtml" />
+    <Content Include="Views\Category\_CategoriesList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

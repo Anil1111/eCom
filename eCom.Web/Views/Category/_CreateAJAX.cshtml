@@ -1,0 +1,57 @@
+﻿@using eCom.Web.Helpers
+
+<h2>Create Category</h2>
+
+<form id="newCategoryForm" method="post">
+	<label>Name</label>
+	<input name="Name" />
+
+	<br />
+
+	<label>Description</label>
+	<input name="Description" />
+
+	<br />
+
+	<button type="submit" id="saveBtn">Save</button>
+</form>
+
+
+<script>
+	$(document).ready(function () {
+		$("#newCategoryForm").submit(function (event) {
+			
+			$.ajax({
+				type: "POST",
+				url: '@Url.CreateCategoryAJAX()',
+				data: {
+					Name: $("input[name=Name]").val(),
+					Description: $("input[name=Description]").val()
+				}
+			})
+			.done(function (data) {
+				if (data.Success)
+				{
+					$.ajax({
+						type: "GET",
+						url: '@Url.CategoriesList()',
+					})
+					.done(function (data) {
+						$("#categoriesDiv").html(data);
+					})
+					.fail(function (XMLHttpRequest, textStatus, errorThrown) {
+						alert(errorThrown);
+					});
+				}
+				else {
+					alert(data.Message);
+				}
+			})
+			.fail(function (XMLHttpRequest, textStatus, errorThrown) {
+				alert(errorThrown);
+			});
+
+			event.preventDefault();
+		});
+	});
+</script>
